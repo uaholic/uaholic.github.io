@@ -118,7 +118,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/12/first-article/"  >第一篇博文</a>
+      <a class="article-title" href="/2018/04/12/first-article/"  >Centos7配置SSH免密登录</a>
     </h1>
   
 
@@ -135,11 +135,31 @@
     <div class="article-entry " itemprop="articleBody">
       
             
-            <h3 id="我的第一篇博文"><a href="#我的第一篇博文" class="headerlink" title="我的第一篇博文"></a>我的第一篇博文</h3>
+            <h2 id="Centos7配置SSH免密"><a href="#Centos7配置SSH免密" class="headerlink" title="Centos7配置SSH免密"></a>Centos7配置SSH免密</h2><pre><code>在搭建集群服务环境时往往需要多个服务器相互通讯，例如在搭建hadoop集群环境时，多个节点之间使用ssh协议相互通讯，每次都输入密码是一件非常繁琐的事情。本文将详细讲解如何配置使多个linux主机相互使用ssh协议免密通讯。
+</code></pre><p> 注：需要免密通讯的多个主机都需要进行如下配置</p>
+<h3 id="新建用户并设置密码"><a href="#新建用户并设置密码" class="headerlink" title="新建用户并设置密码"></a>新建用户并设置密码</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adduser 用户名</span><br><span class="line">paddwd 用户名</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.dearbaby520.com/image/180419/1.png" alt="avatar"></p>
+<h3 id="修改主机名"><a href="#修改主机名" class="headerlink" title="修改主机名"></a>修改主机名</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostname 主机名</span><br></pre></td></tr></table></figure>
+<h3 id="修改hosts将其他主机的ip地址和主机名加入"><a href="#修改hosts将其他主机的ip地址和主机名加入" class="headerlink" title="修改hosts将其他主机的ip地址和主机名加入"></a>修改hosts将其他主机的ip地址和主机名加入</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/hosts</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.dearbaby520.com/image/180419/3.png" alt="avatar"></p>
+<h3 id="修改sudoers"><a href="#修改sudoers" class="headerlink" title="修改sudoers"></a>修改sudoers</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sudoers</span><br></pre></td></tr></table></figure>
+<p>如图在102行的位置加入相应用户的设置，并重启使其生效<br><img src="http://blog.dearbaby520.com/image/180419/4.png" alt="avatar"></p>
+<h3 id="修改sshd服务"><a href="#修改sshd服务" class="headerlink" title="修改sshd服务"></a>修改sshd服务</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/ssh/sshd_config</span><br><span class="line">放开标注的文档(去掉#)：</span><br><span class="line"><span class="meta">#</span>RSAAuthentication yes</span><br><span class="line"><span class="meta">#</span>PubkeyAuthentication yes</span><br><span class="line">重启服务，使刚才的修改生效（centos7上命令）</span><br><span class="line">systemctl restart sshd.service</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.dearbaby520.com/image/180419/5.png" alt="avatar"></p>
+<h3 id="修改网络配置"><a href="#修改网络配置" class="headerlink" title="修改网络配置"></a>修改网络配置</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysconfig/network</span><br><span class="line"><span class="meta">#</span> Created by anaconda</span><br><span class="line">NETWORKING=yes</span><br><span class="line">HOSTNAME=主机名</span><br><span class="line">使用如下命令使刚才的修改/etc/sysconfig/network生效</span><br><span class="line">source /etc/sysconfig/network</span><br><span class="line">service network restart</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.dearbaby520.com/image/180419/6.png" alt="avatar"></p>
+<h3 id="切换用户"><a href="#切换用户" class="headerlink" title="切换用户"></a>切换用户</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su 用户名</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.dearbaby520.com/image/180419/2.png" alt="avatar"></p>
+<h3 id="为每台服务器生成秘钥"><a href="#为每台服务器生成秘钥" class="headerlink" title="为每台服务器生成秘钥"></a>为每台服务器生成秘钥</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ssh-kengen -t 'RSA'</span><br><span class="line">在/home/用户名/.ssh/目录下生成密钥文件</span><br><span class="line">进入/home/用户名/.ssh/目录下会发现一对秘钥（一个公钥，一个私钥）</span><br><span class="line">复制公钥内容到authorized_keys文件</span><br><span class="line">cat id_rsa.pub &gt;&gt; authorized_keys</span><br><span class="line">为authorized_keys文件设置权限644</span><br><span class="line">chmod 644 authorized_keys</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.dearbaby520.com/image/180419/7.png" alt="avatar"><br><img src="http://blog.dearbaby520.com/image/180419/8.png" alt="avatar"></p>
+<h3 id="将多台主机的公钥添加到同一个authorized-keys文件下并复制给其他主机"><a href="#将多台主机的公钥添加到同一个authorized-keys文件下并复制给其他主机" class="headerlink" title="将多台主机的公钥添加到同一个authorized_keys文件下并复制给其他主机"></a>将多台主机的公钥添加到同一个authorized_keys文件下并复制给其他主机</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">可以使用如下做法</span><br><span class="line">在slave服务器上将authorized_keys文件传入到master服务器上</span><br><span class="line">scp authorized_keys hadoop@master:/home/hadoop/.ssh/slave</span><br><span class="line">切换到master服务器将两个文件合并</span><br><span class="line">cat slave &gt;&gt; authorized_keys</span><br><span class="line">将合并后的文件传回到slave服务器上并覆盖</span><br><span class="line">scp authorized_keys hadoop@slave:/home/hadoop/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog.dearbaby520.com/image/180419/9.png" alt="avatar"><br><img src="http://blog.dearbaby520.com/image/180419/10.png" alt="avatar"><br><img src="http://blog.dearbaby520.com/image/180419/11.png" alt="avatar"></p>
+<h3 id="至此免密配置完成使用ssh相互连接一下看看是不是不需要密码啦"><a href="#至此免密配置完成使用ssh相互连接一下看看是不是不需要密码啦" class="headerlink" title="至此免密配置完成使用ssh相互连接一下看看是不是不需要密码啦"></a>至此免密配置完成使用ssh相互连接一下看看是不是不需要密码啦</h3><p><img src="http://blog.dearbaby520.com/image/180419/13.png" alt="avatar"><br><img src="http://blog.dearbaby520.com/image/180419/14.png" alt="avatar"></p>
+
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月12日 18:16</p>
-        <p>原始链接： <a class="post-url" href="/2018/04/12/first-article/" title="第一篇博文">http://blog.dearbaby520.com/2018/04/12/first-article/</a></p>
+        <p>最后更新： 2018年04月19日 20:02</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/12/first-article/" title="Centos7配置SSH免密登录">http://blog.dearbaby520.com/2018/04/12/first-article/</a></p>
         <footer>
             <a href="http://blog.dearbaby520.com">
                 <img src="/images/logo.jpg" alt="Uaholic">
