@@ -29,7 +29,7 @@
 <meta property="og:image" content="http://dearbaby520.com/gyq/bolg/image/180419/11.png">
 <meta property="og:image" content="http://dearbaby520.com/gyq/bolg/image/180419/13.png">
 <meta property="og:image" content="http://dearbaby520.com/gyq/bolg/image/180419/14.png">
-<meta property="og:updated_time" content="2018-04-19T12:14:03.994Z">
+<meta property="og:updated_time" content="2018-04-19T12:16:08.489Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Centos7配置SSH免密登录">
 <meta name="twitter:description" content="Centos7配置SSH免密在搭建集群服务环境时往往需要多个服务器相互通讯，例如在搭建hadoop集群环境时，多个节点之间使用ssh协议相互通讯，每次都输入密码是一件非常繁琐的事情。本文将详细讲解如何配置使多个linux主机相互使用ssh协议免密通讯。  注：需要免密通讯的多个主机都需要进行如下配置 新建用户并设置密码12adduser 用户名paddwd 用户名  修改主机名1hostname">
@@ -160,8 +160,8 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h2 id="Centos7配置SSH免密"><a href="#Centos7配置SSH免密" class="headerlink" title="Centos7配置SSH免密"></a>Centos7配置SSH免密</h2><pre><code>在搭建集群服务环境时往往需要多个服务器相互通讯，例如在搭建hadoop集群环境时，多个节点之间使用ssh协议相互通讯，每次都输入密码是一件非常繁琐的事情。本文将详细讲解如何配置使多个linux主机相互使用ssh协议免密通讯。
-</code></pre><p> 注：需要免密通讯的多个主机都需要进行如下配置</p>
+            <h2 id="Centos7配置SSH免密"><a href="#Centos7配置SSH免密" class="headerlink" title="Centos7配置SSH免密"></a>Centos7配置SSH免密</h2><p>在搭建集群服务环境时往往需要多个服务器相互通讯，例如在搭建hadoop集群环境时，多个节点之间使用ssh协议相互通讯，每次都输入密码是一件非常繁琐的事情。本文将详细讲解如何配置使多个linux主机相互使用ssh协议免密通讯。</p>
+<p> 注：需要免密通讯的多个主机都需要进行如下配置</p>
 <h3 id="新建用户并设置密码"><a href="#新建用户并设置密码" class="headerlink" title="新建用户并设置密码"></a>新建用户并设置密码</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adduser 用户名</span><br><span class="line">paddwd 用户名</span><br></pre></td></tr></table></figure>
 <p><img src="http://dearbaby520.com/gyq/bolg/image/180419/1.png" alt="avatar"></p>
 <h3 id="修改主机名"><a href="#修改主机名" class="headerlink" title="修改主机名"></a>修改主机名</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostname 主机名</span><br></pre></td></tr></table></figure>
@@ -183,7 +183,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年04月19日 20:14</p>
+        <p>最后更新： 2018年04月19日 20:16</p>
         <p>原始链接： <a class="post-url" href="/2018/04/12/first-article/" title="Centos7配置SSH免密登录">http://blog.dearbaby520.com/2018/04/12/first-article/</a></p>
         <footer>
             <a href="http://blog.dearbaby520.com">
